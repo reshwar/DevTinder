@@ -12,8 +12,13 @@ authRouter.post('/signUp', async (req, res) => {
         const passwordHash = bcrypt.hashSync(password, 10);
         validateSignUp(req)
         const schema = new user({ firstname, lastname, emailId, age, gender, password: passwordHash })
-        await schema.save()
-        res.send("saved data to database")
+        const resp = await schema.save()
+        console.log("resp from postman", resp)
+        const token = await resp.getJWT()
+        res.cookie("token", token)
+        res.json({data:resp})
+
+        //res.send("saved data to database")
     } catch (error) {
         console.log("error here", error)
         res.status(400).send(error.message)
