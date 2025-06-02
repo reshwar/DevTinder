@@ -22,7 +22,7 @@ const userAuth = async (req, res, next) => {
             throw new Error("Invalid token")
         }
         req.user = user
-        console.log("req.user",req.user)
+        // console.log("req.user",req.user)
         next()
     } catch (error) {
         if (error.name === "JsonWebTokenError") {

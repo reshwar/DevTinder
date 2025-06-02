@@ -7,13 +7,13 @@ const bcrypt = require('bcrypt');
 
 authRouter.post('/signUp', async (req, res) => {
     try {
-        console.log("req from postman", req.body)
+        // console.log("req from postman", req.body)
         const { firstname, lastname, emailId, age, gender, password } = req.body
         const passwordHash = bcrypt.hashSync(password, 10);
         validateSignUp(req)
         const schema = new user({ firstname, lastname, emailId, age, gender, password: passwordHash })
         const resp = await schema.save()
-        console.log("resp from postman", resp)
+        // console.log("resp from postman", resp)
         const token = await resp.getJWT()
         res.cookie("token", token)
         res.json({data:resp})
@@ -27,7 +27,7 @@ authRouter.post('/signUp', async (req, res) => {
 
 authRouter.post('/login', async (req, res) => {
     try {
-        console.log("req from postman", req.body)
+        // console.log("req from postman", req.body)
         const { emailId, password } = req.body
         //const userId = await user.findOne({ emailId })
         const userRecord = await user.findOne({ emailId }).exec();
